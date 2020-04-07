@@ -5,13 +5,101 @@ class IndexPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Column(
-        children: <Widget>[
-          TopBar(),
+      color: Colors.white,
+      child: CustomScrollView(
+        slivers: <Widget>[
+          SliverToBoxAdapter(
+            child: TopBar(),
+          ),
           TopMenu(),
           SecondaryMenu(),
-          Advertisement()
+          Advertisement(),
+          HeaderTitle(),
+          TabBarMenu(),
         ],
+      ),
+    );
+  }
+}
+
+class TabBarMenu extends StatefulWidget {
+  @override
+  _TabBarMenuState createState() => _TabBarMenuState();
+}
+
+class _TabBarMenuState extends State<TabBarMenu>
+    with SingleTickerProviderStateMixin {
+  var _tabs = [
+    Tab(text: '咨询新知'),
+    Tab(text: '二手执照'),
+    Tab(text: '知产转让'),
+    Tab(text: '地址租赁')
+  ];
+  TabController _tabController;
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  void initState() {
+    super.initState();
+    _tabController = new TabController(vsync: this, length: 4);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverPadding(
+      padding: EdgeInsets.only(
+          left: ScreenUtil().setWidth(10), right: ScreenUtil().setWidth(10)),
+      sliver: SliverToBoxAdapter(
+        child: TabBar(
+          labelColor: Colors.black,
+          unselectedLabelColor: Colors.black54,
+          indicatorSize: TabBarIndicatorSize.label,
+          labelStyle: TextStyle(fontSize: ScreenUtil().setSp(28)),
+          tabs: <Tab>[
+            Tab(text: '咨询新知'),
+            Tab(text: '二手执照'),
+            Tab(text: '知产转让'),
+            Tab(text: '地址租赁')
+          ],
+          indicatorColor: Colors.green,
+          controller: _tabController,
+        ),
+      ),
+    );
+  }
+}
+
+///标题 我的执照
+class HeaderTitle extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SliverPadding(
+      padding: EdgeInsets.only(
+          top: ScreenUtil().setHeight(40),
+          left: ScreenUtil().setWidth(30),
+          right: ScreenUtil().setWidth(30)),
+      sliver: SliverToBoxAdapter(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(
+              '我的执照',
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: ScreenUtil().setSp(34),
+                  fontWeight: FontWeight.bold),
+            ),
+            Text('查看执照',
+                style: TextStyle(
+                    color: Colors.black26,
+                    fontSize: ScreenUtil().setSp(28),
+                    fontWeight: FontWeight.w400))
+          ],
+        ),
       ),
     );
   }
@@ -21,15 +109,17 @@ class IndexPage extends StatelessWidget {
 class Advertisement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(
-          left: ScreenUtil().setWidth(30),
-          top: ScreenUtil().setWidth(30),
-          right: ScreenUtil().setWidth(30)),
-      child: AspectRatio(
-        aspectRatio: 69 / 12,
-        child: Image.asset(
-          'assets/images/ad1.png',
+    return SliverToBoxAdapter(
+      child: Container(
+        margin: EdgeInsets.only(
+            left: ScreenUtil().setWidth(30),
+            top: ScreenUtil().setWidth(30),
+            right: ScreenUtil().setWidth(30)),
+        child: AspectRatio(
+          aspectRatio: 69 / 12,
+          child: Image.asset(
+            'assets/images/ad1.png',
+          ),
         ),
       ),
     );
@@ -40,105 +130,114 @@ class Advertisement extends StatelessWidget {
 class SecondaryMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(
-          left: ScreenUtil().setWidth(37),
-          right: ScreenUtil().setWidth(37),
-          top: ScreenUtil().setWidth(10)),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Image.asset(
-                'assets/images/nav1.png',
-                width: ScreenUtil().setWidth(92),
-                height: ScreenUtil().setWidth(92),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: ScreenUtil().setHeight(10)),
-                child: Text(
-                  '发布执照',
-                  style: TextStyle(
-                      color: Colors.black, fontSize: ScreenUtil().setSp(26)),
+    return SliverToBoxAdapter(
+      child: Container(
+        margin: EdgeInsets.only(
+            left: ScreenUtil().setWidth(37),
+            right: ScreenUtil().setWidth(37),
+            top: ScreenUtil().setWidth(10)),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(
+                  width: ScreenUtil().setWidth(92),
+                  height: ScreenUtil().setWidth(92),
+                  child: FlatButton(
+                      onPressed: () {},
+                      child: Image.asset(
+
+                        'assets/images/nav1.png',
+
+                        fit: BoxFit.cover,
+                      )),
                 ),
-              )
-            ],
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Image.asset(
-                'assets/images/nav2.png',
-                width: ScreenUtil().setWidth(92),
-                height: ScreenUtil().setWidth(92),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: ScreenUtil().setHeight(10)),
-                child: Text(
-                  '发布知产',
-                  style: TextStyle(
-                      color: Colors.black, fontSize: ScreenUtil().setSp(26)),
+                Padding(
+                  padding: EdgeInsets.only(top: ScreenUtil().setHeight(10)),
+                  child: Text(
+                    '发布执照',
+                    style: TextStyle(
+                        color: Colors.black, fontSize: ScreenUtil().setSp(26)),
+                  ),
+                )
+              ],
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Image.asset(
+                  'assets/images/nav2.png',
+                  width: ScreenUtil().setWidth(92),
+                  height: ScreenUtil().setWidth(92),
                 ),
-              )
-            ],
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Image.asset(
-                'assets/images/nav3.png',
-                width: ScreenUtil().setWidth(92),
-                height: ScreenUtil().setWidth(92),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: ScreenUtil().setHeight(10)),
-                child: Text(
-                  '发布租赁',
-                  style: TextStyle(
-                      color: Colors.black, fontSize: ScreenUtil().setSp(26)),
+                Padding(
+                  padding: EdgeInsets.only(top: ScreenUtil().setHeight(10)),
+                  child: Text(
+                    '发布知产',
+                    style: TextStyle(
+                        color: Colors.black, fontSize: ScreenUtil().setSp(26)),
+                  ),
+                )
+              ],
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Image.asset(
+                  'assets/images/nav3.png',
+                  width: ScreenUtil().setWidth(92),
+                  height: ScreenUtil().setWidth(92),
                 ),
-              )
-            ],
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Image.asset(
-                'assets/images/nav4.png',
-                width: ScreenUtil().setWidth(92),
-                height: ScreenUtil().setWidth(92),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: ScreenUtil().setHeight(10)),
-                child: Text(
-                  '附近门店',
-                  style: TextStyle(
-                      color: Colors.black, fontSize: ScreenUtil().setSp(26)),
+                Padding(
+                  padding: EdgeInsets.only(top: ScreenUtil().setHeight(10)),
+                  child: Text(
+                    '发布租赁',
+                    style: TextStyle(
+                        color: Colors.black, fontSize: ScreenUtil().setSp(26)),
+                  ),
+                )
+              ],
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Image.asset(
+                  'assets/images/nav4.png',
+                  width: ScreenUtil().setWidth(92),
+                  height: ScreenUtil().setWidth(92),
                 ),
-              )
-            ],
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Image.asset(
-                'assets/images/nav5.png',
-                width: ScreenUtil().setWidth(92),
-                height: ScreenUtil().setWidth(92),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: ScreenUtil().setHeight(10)),
-                child: Text(
-                  '更多',
-                  style: TextStyle(
-                      color: Colors.black, fontSize: ScreenUtil().setSp(26)),
+                Padding(
+                  padding: EdgeInsets.only(top: ScreenUtil().setHeight(10)),
+                  child: Text(
+                    '附近门店',
+                    style: TextStyle(
+                        color: Colors.black, fontSize: ScreenUtil().setSp(26)),
+                  ),
+                )
+              ],
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Image.asset(
+                  'assets/images/nav5.png',
+                  width: ScreenUtil().setWidth(92),
+                  height: ScreenUtil().setWidth(92),
                 ),
-              )
-            ],
-          ),
-        ],
+                Padding(
+                  padding: EdgeInsets.only(top: ScreenUtil().setHeight(10)),
+                  child: Text(
+                    '更多',
+                    style: TextStyle(
+                        color: Colors.black, fontSize: ScreenUtil().setSp(26)),
+                  ),
+                )
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -148,32 +247,34 @@ class SecondaryMenu extends StatelessWidget {
 class TopMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(top: ScreenUtil().setHeight(30)),
-      child: Row(
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(left: ScreenUtil().setWidth(20)),
-            child: Image.asset(
-              'assets/images/ershou.png',
+    return SliverToBoxAdapter(
+      child: Container(
+        margin: EdgeInsets.only(top: ScreenUtil().setHeight(30)),
+        child: Row(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(left: ScreenUtil().setWidth(20)),
+              child: Image.asset(
+                'assets/images/ershou.png',
+                width: ScreenUtil().setWidth(236),
+                height: ScreenUtil().setHeight(170),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: ScreenUtil().setWidth(5)),
+              child: Image.asset(
+                'assets/images/zhichan.png',
+                width: ScreenUtil().setWidth(236),
+                height: ScreenUtil().setHeight(170),
+              ),
+            ),
+            Image.asset(
+              'assets/images/dizhi.png',
               width: ScreenUtil().setWidth(236),
               height: ScreenUtil().setHeight(170),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: ScreenUtil().setWidth(5)),
-            child: Image.asset(
-              'assets/images/zhichan.png',
-              width: ScreenUtil().setWidth(236),
-              height: ScreenUtil().setHeight(170),
-            ),
-          ),
-          Image.asset(
-            'assets/images/dizhi.png',
-            width: ScreenUtil().setWidth(236),
-            height: ScreenUtil().setHeight(170),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
